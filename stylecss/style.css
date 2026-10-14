@@ -44,7 +44,9 @@ img:hover{color: #eb8729;
 transform: scale(1.08);}
 
 .navi {
-    margin-left: -380px;
+    /* replaces the old margin-left:-380px hack so the nav can flow/wrap properly */
+    flex: 1;
+    padding-left: 60px;
 }
 
 .navi a {
@@ -266,4 +268,229 @@ footer{
 
 .lightbox-close:hover {
     color: #eb8729;
+}
+
+
+/* ===== SOFTWARE USED ICONS ===== */
+.software-grid {
+    display: flex;
+    flex-wrap: wrap;          /* left to right, then down */
+    gap: 22px;
+    padding: 20px 0 50px 0;
+}
+.software-item {
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+.software-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform .25s ease, filter .25s ease;
+}
+.software-item:hover img {
+    transform: translateY(-5px) scale(1.2);
+    filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.25));
+}
+/* hover label */
+.software-item::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translate(-50%, 6px);
+    background: #eb8729;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    z-index: 5;
+}
+.software-item:hover::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+@media (max-width: 768px) {
+    .software-grid { gap: 18px; }
+    .software-item { width: 42px; height: 42px; }
+}
+
+/* ===== CONTACT PAGE ===== */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px 0 30px 0;
+}
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #555;
+    text-decoration: none;
+    font-size: 1.4em;
+    font-weight: 500;
+    width: fit-content;
+    transition: color .3s, transform .3s;
+}
+.contact-row i {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eb8729;
+    color: #fff;
+    font-size: 1.1rem;
+    border: 2px solid #eb8729;
+    transition: .3s;
+}
+.contact-row:hover { color: #eb8729; transform: translateX(4px); }
+.contact-row:hover i { background: transparent; color: #eb8729; }
+
+.social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+.social-icons a {
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eb8729;
+    color: #fff;
+    font-size: 30px;
+    text-decoration: none;
+    border: 2px solid #eb8729;
+    transition: .3s;
+}
+.social-icons a:hover {
+    background: transparent;
+    color: #eb8729;
+    transform: translateY(-4px);
+}
+
+@media (max-width: 768px) {
+    .contact-row { font-size: 1.05em; gap: 12px; }
+    .contact-row i { width: 42px; height: 42px; }
+    .contact-row span { overflow-wrap: anywhere; }
+    .social-icons a { width: 56px; height: 56px; font-size: 26px; }
+}
+
+
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+/* safety nets for every screen size */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; }
+.content, .content p, .content dd, .content li { overflow-wrap: anywhere; }
+.content a { overflow-wrap: anywhere; }
+nav { flex-wrap: wrap; }
+
+/* no sticky "zoom" on touch screens */
+@media (hover: none) {
+    img:hover, .navi a:hover { transform: none; }
+}
+
+/* ---------- Laptops / small desktops ---------- */
+@media (max-width: 1200px) {
+    header, footer { padding: 25px 50px; }
+    .home { padding: 30px 50px; gap: 60px; }
+    .navi { padding-left: 30px; }
+}
+
+/* ---------- Tablets ---------- */
+@media (max-width: 900px) {
+    header, footer { padding: 20px 30px; }
+    .home { padding: 25px 30px; gap: 30px; }
+    .content h2 { font-size: 2.3em; }
+    .content h4 { font-size: 1.6em; }
+    .home-img { height: auto; max-height: 450px; margin-top: 0; }
+}
+
+/* ---------- Phones / small tablets ---------- */
+@media (max-width: 768px) {
+    /* header: logo + Contact on row 1, nav links on row 2 */
+    header {
+        flex-wrap: wrap;
+        padding: 14px 20px;
+        row-gap: 10px;
+    }
+    header > a:first-child { order: 1; }
+    .contactboxthing { order: 2; padding: 8px 24px; }
+    .navi {
+        order: 3;
+        flex: 0 0 100%;
+        width: 100%;
+        padding-left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px 18px;
+        padding-top: 10px;
+        border-top: 1px solid #e5e5e5;
+    }
+    .navi a { margin-right: 0; font-size: 1em; }
+    .name { font-size: 1.7em; }
+
+    /* sections stack vertically */
+    .home {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 20px;
+    }
+    .home > div, .content { width: 100%; max-width: 100%; }
+    .home img { max-width: 100%; height: auto; }
+    .home-img { margin-top: 0; max-height: 380px; }
+    .home-img2 { height: auto; max-height: 280px; margin-top: 0; }
+    /* resume image: override the 50% width attributes in the HTML */
+    .home div > img { width: 100%; height: auto; }
+
+    .content h2 { font-size: 1.9em; line-height: 1.25; }
+    .content h4 { font-size: 1.35em; margin-bottom: 6px; }
+    .content p { padding: 8px 0 24px 0; }
+    .content ul { padding-left: 20px; }
+    dt { font-size: 1.2em; }
+    dd { padding: 8px 0 28px 0; }
+
+    .button a { padding: 10px 28px; }
+    footer { padding: 20px; text-align: center; }
+
+    /* work cards */
+    .card-container { margin-top: 10px; }
+    .card { width: calc(100% - 32px); max-width: 400px; margin: 14px 16px; }
+    .card img { height: 260px; }
+    .lightbox { padding: 12px; }
+    .lightbox-close { top: 8px; right: 16px; font-size: 38px; }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 400px) {
+    header { padding: 12px 14px; }
+    .navi { gap: 4px 12px; }
+    .navi a { font-size: .9em; }
+    .contactboxthing { padding: 7px 18px; font-size: .95em; }
+    .home { padding: 16px 14px; }
+    .content h2 { font-size: 1.6em; }
+    .content h4 { font-size: 1.2em; }
+    .card { width: calc(100% - 20px); margin: 12px 10px; }
+    .card img { height: 220px; }
 }
