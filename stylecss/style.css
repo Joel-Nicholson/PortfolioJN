@@ -217,7 +217,7 @@ footer{
     background: transparent;
 }
 
-/* ===== LIGHTBOX ===== */
+/* ===== LIGHTBOx ===== */
 .lightbox {
     display: none;                      /* hidden by default */
     position: fixed;
@@ -269,6 +269,52 @@ footer{
 .lightbox-close:hover {
     color: #eb8729;
 }
+
+/* ===== zoom image ===== */
+/* column layout: picture area on top, zoom buttons in their own bar below */
+.lightbox { flex-direction: column; }
+.lightbox-stage {
+    flex: 1 1 0;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;                /* zoomed image stays inside this area, never over the buttons */
+}
+.lightbox-stage img,
+.lightbox-stage video { max-height: 100%; }
+
+.lightbox img {
+    transition: transform .25s ease;
+    touch-action: none;                 /* lets dragging work on phones */
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.lightbox img.show { cursor: zoom-in; }
+.lightbox img.zoomed { cursor: grab; }
+.lightbox img.dragging { cursor: grabbing; transition: none; }
+
+.zoom-controls {
+    display: none;
+    flex: 0 0 auto;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 16px;
+}
+.lightbox.img-mode .zoom-controls { display: flex; }
+.zoom-controls button {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid #eb8729;
+    background: #eb8729;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .3s;
+}
+.zoom-controls button:hover { background: transparent; color: #eb8729; }
 
 
 /* ===== SOFTWARE USED ICONS ===== */
@@ -322,7 +368,7 @@ footer{
     .software-item { width: 42px; height: 42px; }
 }
 
-/* ===== CONTACT PAGE ===== */
+/* ===== contact page ===== */
 .contact-list {
     display: flex;
     flex-direction: column;
@@ -494,3 +540,4 @@ nav { flex-wrap: wrap; }
     .card { width: calc(100% - 20px); margin: 12px 10px; }
     .card img { height: 220px; }
 }
+
