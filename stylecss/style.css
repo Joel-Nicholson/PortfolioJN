@@ -316,6 +316,13 @@ footer{
 }
 .zoom-controls button:hover { background: transparent; color: #eb8729; }
 
+/* ===== lightbox: show blurred thumbnail while the full image loads ===== */
+.lightbox img.loading {
+    height: 100%;                 /* thumbnail fills the same space the full image will */
+    filter: blur(4px);
+    transition: filter .3s ease, transform .25s ease;
+}
+
 
 /* ===== SOFTWARE USED ICONS ===== */
 .software-grid {

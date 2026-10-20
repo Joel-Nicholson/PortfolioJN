@@ -3,13 +3,49 @@ const lightboxImg = document.getElementById('lightbox-img');
 const lightboxVideo = document.getElementById('lightbox-video');
 
 // open an image
+// small thumbnail path for any flyer, e.g. .../myownwork/full/x.webp -> .../myownwork/thumbs/x.webp
+function thumbOf(src) {
+    return src.replace(/\/myownwork\/(?:full\/)?([^\/]+)\.\w+$/i, '/myownwork/thumbs/$1.webp');
+}
+
+// start downloading a full-size image early (on hover / touch) so it is ready on click
+const preloaded = {};
+function preload(src) {
+    if (preloaded[src]) return preloaded[src];
+    const img = new Image();
+    img.src = src;
+    preloaded[src] = img;
+    return img;
+}
+
+let currentFull = '';
+
 document.querySelectorAll('.view-img').forEach(btn => {
+    // begin loading as soon as the person points at / touches the button
+    btn.addEventListener('mouseenter', () => preload(btn.dataset.img));
+    btn.addEventListener('touchstart', () => preload(btn.dataset.img), { passive: true });
+
     btn.addEventListener('click', function (e) {
         e.preventDefault();
-        lightboxImg.src = this.dataset.img;
+        const full = this.dataset.img;
+        currentFull = full;
+        resetZoom();
+
+        // 1) show the small (already like downloaded) thumbnail instantly, slightly blurred
+        lightboxImg.classList.add('loading');
+        lightboxImg.src = thumbOf(full);
         lightboxImg.classList.add('show');
         lightbox.classList.add('open', 'img-mode');
-        resetZoom();
+
+        // 2) swap to the fullsize image the moment it has finished loading
+        const big = preload(full);
+        const swap = () => {
+            if (currentFull !== full || !lightbox.classList.contains('open')) return;
+            lightboxImg.src = full;
+            lightboxImg.classList.remove('loading');
+        };
+        if (big.complete && big.naturalWidth) swap();
+        else big.addEventListener('load', swap, { once: true });
     });
 });
 
@@ -26,6 +62,7 @@ document.querySelectorAll('.view-video').forEach(btn => {
 
 function closeLightbox() {
     lightbox.classList.remove('open', 'img-mode');
+    currentFull = '';
     lightboxImg.classList.remove('show');
     resetZoom();
     lightboxVideo.classList.remove('show');
@@ -46,7 +83,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 
-/* ===== IMAGE ZOOM (lightbox) ===== */
+/* ===== zoom (lightbox) ===== */
 let zoom = 1, panX = 0, panY = 0;
 let dragging = false, moved = false, startX = 0, startY = 0;
 const MIN_ZOOM = 1, MAX_ZOOM = 4;
