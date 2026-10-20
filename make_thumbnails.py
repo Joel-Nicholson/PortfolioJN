@@ -3,7 +3,7 @@ Makes small, fast-loading card thumbnails from your big flyer images.
 
 HOW TO USE
 1. I put this file next to my 'Assets' folder and run:
-       pip install pillow
+       pip install pillow (if you dont already have it installed)
        python make_thumbnails.py
 2. It reads every png/jpg in Assets/myownwork and writes a small .webp
    version of each into Assets/myownwork/thumbs/

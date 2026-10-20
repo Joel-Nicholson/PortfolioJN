@@ -3,7 +3,7 @@ Makes lighter "full size" versions of my flyers for the lightbox.
 They stay big and sharp enough to zoom, but are MUCH smaller files.
 
 USAGE (i put it in the same folder that has 'Assets'):
-    pip install pillow
+    pip install pillow (if you dont already have it installed)
     python make_full_versions.py
 
 Output: Assets/myownwork/full/<name>.webp   (my originals are not touched)
