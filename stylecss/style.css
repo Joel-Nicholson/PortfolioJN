@@ -548,3 +548,23 @@ nav { flex-wrap: wrap; }
     .card img { height: 220px; }
 }
 
+/* ===== my work: switch between Flyers & Designs / Videos pages ===== */
+.work-switch {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 10px 20px 0 20px;
+}
+.work-switch a:not(.active) {
+    background: transparent;
+    color: #eb8729;
+}
+.work-switch a:not(.active):hover {
+    background: #eb8729;
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .work-switch { gap: 10px; padding-top: 6px; }
+    .work-switch a { padding: 8px 20px; }
+}
